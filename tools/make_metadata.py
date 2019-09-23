@@ -70,7 +70,7 @@ if args.id:
                                        args.sign, secc)
     valid_instance(desc)
     xmldoc = metadata_tostring_fix(desc, nspair, xmldoc)
-    print(xmldoc.decode("utf-8"))
+    print(xmldoc)
 else:
     for eid in eds:
         if args.sign:
@@ -82,4 +82,4 @@ else:
 
         valid_instance(eid)
         xmldoc = metadata_tostring_fix(eid, nspair, xmldoc)
-        print(xmldoc.decode("utf-8"))
+        print(xmldoc)

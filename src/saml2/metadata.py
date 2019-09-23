@@ -67,11 +67,23 @@ def metadata_tostring_fix(desc, nspair, xmlstring=""):
         xmlstring = desc.to_string(nspair)
 
     if six.PY2:
-        if "\"xs:string\"" in xmlstring and XMLNSXS not in xmlstring:
-            xmlstring = xmlstring.replace(MDNS, MDNS + XMLNSXS)
+        if isinstance(xmlstring, (str, unicode)):
+            if "\"xs:string\"" in xmlstring and XMLNSXS not in xmlstring:
+                xmlstring = xmlstring.replace(MDNS, MDNS + XMLNSXS)
+        else:
+            # NOTE(psmiraglia): is this "else" making sense?
+            pass
     else:
-        if b"\"xs:string\"" in xmlstring and bXMLNSXS not in xmlstring:
-            xmlstring = xmlstring.replace(bMDNS, bMDNS + bXMLNSXS)
+        if isinstance(xmlstring, bytes):
+            if b"\"xs:string\"" in xmlstring and bXMLNSXS not in xmlstring:
+                xmlstring = xmlstring.replace(bMDNS, bMDNS + bXMLNSXS)
+                xmlstring = xmlstring.decode("utf-8")
+        elif isinstance(xmlstring, str):
+            if "\"xs:string\"" in xmlstring and XMLNSXS not in xmlstring:
+                xmlstring = xmlstring.replace(MDNS, MDNS + XMLNSXS)
+        else:
+            # NOTE(psmiraglia): is this "else" making sense?
+            pass
 
     return xmlstring
 
